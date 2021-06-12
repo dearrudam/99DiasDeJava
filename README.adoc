@@ -12,7 +12,7 @@ image:{shields-cdn}twitter/url?color=%231DA1F2&label=marruda&logo=twitter&logoCo
 
 == Dia 1 - Modelando com Java: Números racionais com sua forma irredutível!
 == Dia 2 - Vamos incrementar algo? Adição entre números racionais com Java! 
-== Dia 3 - Menos é mais (será?): Subtração entre números racionais com Java! 
+== Dia 3 - Menos é mais: Subtração entre números racionais com Java! 
 == Dia 4 - Multiplicando nossas opções: Multiplicação entre números racionais com Java!
 == Dia 5 - Dividir para conquistar: Divisão entre números racionais com Java!
 == Dia 6 - Modelando com Java: Karatê-do.
