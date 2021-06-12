@@ -17,8 +17,8 @@ image:{shields-cdn}twitter/url?color=%231DA1F2&label=maxdearruda&logo=twitter&lo
 == Dia 5 - Dividir para conquistar: Divisão entre números racionais com Java!
 == Dia 6 - Modelando com Java: Karatê-do.
 == Dia 7 - Modelando com Java: Definindo os treinos dos nossos Karatecas!
-== Dia 7 - Threads com java: Preparando nossos Karatecas.
-== Dia 7 - Modelando com Java: Modelando um Torneiro de Karatê.
-== Dia 7 - Threads com java: Simulando rodadas do Torneio de Karatê
-== Dia 8 - Streams, Map e Reduce: Computando resultados do Torneio de Karatê
+== Dia 8 - Threads com java: Preparando nossos Karatecas.
+== Dia 9 - Modelando com Java: Modelando um Torneiro de Karatê.
+== Dia 10 - Threads com java: Simulando rodadas do Torneio de Karatê
+== Dia 11 - Streams, Map e Reduce: Computando resultados do Torneio de Karatê
 
