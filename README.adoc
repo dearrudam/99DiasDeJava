@@ -8,7 +8,7 @@
 
 Qualquer dúvida, sugestão e críticas, por favor, entre em contato:
 
-image:{shields-cdn}twitter/url?color=%231DA1F2&label=marruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda]
+image:{shields-cdn}twitter/url?color=%231DA1F2&label=maxdearruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda]
 
 == Dia 1 - Modelando com Java: Números racionais com sua forma irredutível!
 == Dia 2 - Vamos incrementar algo? Adição entre números racionais com Java! 
