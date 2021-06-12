@@ -1,22 +1,24 @@
-# 100 Days of Java
+# 99 Dias de Java
 
 :shields-cdn: https://img.shields.io/
 
 :toc:
 
-Java content every day for a hundred days.
+99 dias de conteúdo Java com o propósito de aprender e praticar! Bora praticar e aprender juntos? :)
 
-If you have any questions, ask me on my social media:
+Qualquer dúvida, sugestão e críticas, por favor, entre em contato:
 
 image:{shields-cdn}twitter/url?color=%231DA1F2&label=marruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda]
 
-== Day 1 - TDB
-== Day 2 - TBD
-== Day 3 - TBD
-== Day 4 - TBD
-== Day 5 - TBD
-== Day 6 - TBD
-== Day 7 - TBD
-== Day 8 - TBD
-== Day 9 - TBD
-== Day 10 - TBD
+== Dia 1 - Modelando com Java: Números racionais com sua forma irredutível!
+== Dia 2 - Vamos incrementar algo? Adição entre números racionais com Java! 
+== Dia 3 - Menos é mais (será?): Subtração entre números racionais com Java! 
+== Dia 4 - Multiplicando nossas opções: Multiplicação entre números racionais com Java!
+== Dia 5 - Dividir para conquistar: Divisão entre números racionais com Java!
+== Dia 6 - Modelando com Java: Karatê-do.
+== Dia 7 - Modelando com Java: Definindo os treinos dos nossos Karatecas!
+== Dia 7 - Threads com java: Preparando nossos Karatecas.
+== Dia 7 - Modelando com Java: Modelando um Torneiro de Karatê.
+== Dia 7 - Threads com java: Simulando rodadas do Torneio de Karatê
+== Dia 8 - Streams, Map e Reduce: Computando resultados do Torneio de Karatê
+
