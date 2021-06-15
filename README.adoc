@@ -10,4 +10,51 @@ Qualquer dúvida, sugestão e críticas, por favor, entre em contato:
 
 image:{shields-cdn}twitter/url?color=%231DA1F2&label=maxdearruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda,window=_blank]
 
+== Dia 01 - Modelando com Java: Representando números racionais com uma fração irredutível!
 
+[source,java]
+----
+package noventaenovediasdejava.dia01;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class NumeroRacionalTest {
+    @Test
+    void test() {
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, 0),
+            "não deve aceitar denominador igual á 0"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(null, 1),
+            "não deve aceitar numerador nulo"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, null),
+            "não deve aceitar denominador nulo"
+        );
+    }
+}
+----
+[source,java]
+----
+package noventaenovediasdejava.dia01;
+
+public record NumeroRacional(Integer numerador, Integer denominador) {
+    public NumeroRacional {
+        if (numerador == null) {
+            throw new IllegalArgumentException("numerador não pode ser nulo");
+        }
+        if (denominador == null) {
+            throw new IllegalArgumentException("denominador não pode ser nulo");
+        }
+        if (Integer.valueOf(0).equals(denominador)) {
+            throw new IllegalArgumentException("denominador não pode ser igual à 0");
+        }
+    }
+}
+----
