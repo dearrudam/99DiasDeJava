@@ -8,17 +8,6 @@
 
 Qualquer dúvida, sugestão e críticas, por favor, entre em contato:
 
-image:{shields-cdn}twitter/url?color=%231DA1F2&label=maxdearruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda]
+image:{shields-cdn}twitter/url?color=%231DA1F2&label=maxdearruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda,window=_blank]
 
-== Dia 1 - Modelando com Java: Números racionais com sua forma irredutível!
-== Dia 2 - Vamos incrementar algo? Adição entre números racionais com Java! 
-== Dia 3 - Menos é mais: Subtração entre números racionais com Java! 
-== Dia 4 - Multiplicando nossas opções: Multiplicação entre números racionais com Java!
-== Dia 5 - Dividir para conquistar: Divisão entre números racionais com Java!
-== Dia 6 - Modelando com Java: Karatê-do.
-== Dia 7 - Modelando com Java: Definindo os treinos dos nossos Karatecas!
-== Dia 8 - Threads com java: Preparando nossos Karatecas.
-== Dia 9 - Modelando com Java: Modelando um Torneiro de Karatê.
-== Dia 10 - Threads com java: Simulando rodadas do Torneio de Karatê
-== Dia 11 - Streams, Map e Reduce: Computando resultados do Torneio de Karatê
 

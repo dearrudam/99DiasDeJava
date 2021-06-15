@@ -12,6 +12,8 @@ tmp/
 *~.nib
 local.properties
 .settings/
+.project
+.classpath
 .loadpath
 .recommenders
 
@@ -207,6 +209,7 @@ nbdist/
 .nb-gradle/
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
