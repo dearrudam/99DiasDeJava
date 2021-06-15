@@ -89,5 +89,6 @@
   </build>
   <modules>
     <module>dia01</module>
+    <module>dia02</module>
   </modules>
 </project>
