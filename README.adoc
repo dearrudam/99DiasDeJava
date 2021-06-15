@@ -10,7 +10,7 @@ Qualquer dúvida, sugestão e críticas, por favor, entre em contato:
 
 image:{shields-cdn}twitter/url?color=%231DA1F2&label=maxdearruda&logo=twitter&logoColor=%231DA1F2&style=flat&url=https%3A%2F%2Ftwitter.com%2Fmaxdearruda[caption="@maxdearruda",link=https://twitter.com/maxdearruda,window=_blank]
 
-== Dia 01 - Modelando com Java: Representando números racionais com uma fração irredutível!
+== Dia 01 - Modelando com Java: Representando números racionais
 
 [source,java]
 ----
