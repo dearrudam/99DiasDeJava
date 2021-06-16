@@ -58,3 +58,69 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
     }
 }
 ----
+== Dia 02 - Modelando com Java: Subrescrevendo metódos Java
+
+[source,java]
+----
+package noventaenovediasdejava.dia02;
+
+public record NumeroRacional(Integer numerador, Integer denominador) {
+    public NumeroRacional {
+        if (numerador == null) {
+            throw new IllegalArgumentException("numerador não pode ser nulo");
+        }
+        if (denominador == null) {
+            throw new IllegalArgumentException("denominador não pode ser nulo");
+        }
+        if (Integer.valueOf(0).equals(denominador)) {
+            throw new IllegalArgumentException("denominador não pode ser igual a 0");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "%s/%s".formatted(this.numerador, this.denominador);
+    }
+
+}
+----
+[source,java]
+----
+package noventaenovediasdejava.dia02;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(OrderAnnotation.class)
+class NumeroRacionalTest {
+    @Test
+    @Order(0)
+    void testarInstanciacao() {
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, 0),
+            "não deve aceitar denominador igual a 0"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(null, 1),
+            "não deve aceitar numerador nulo"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, null),
+            "não deve aceitar denominador nulo"
+        );
+    }
+
+    @Test
+    @Order(1)
+    void testarToString() {
+        var numeroRacional = new NumeroRacional(2, 3);
+        Assertions.assertEquals("2/3", numeroRacional.toString());
+    }
+}
+----
