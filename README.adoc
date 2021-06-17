@@ -125,7 +125,7 @@ class NumeroRacionalTest {
     }
 }
 ----
-== Dia 03 - Modelando com Java: Vamos representar números racionais em sua forma irredutível!
+== Dia 03 - Vamos representar números racionais em sua forma irredutível com Java!
 
 [source,java]
 ----
