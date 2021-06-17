@@ -62,7 +62,7 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
 
 [source,java]
 ----
-package noventaenovediasdejava.dia02;
+package noventaenovediasdejava.dia03;
 
 public record NumeroRacional(Integer numerador, Integer denominador) {
     public NumeroRacional {
@@ -84,9 +84,10 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
 
 }
 ----
+
 [source,java]
 ----
-package noventaenovediasdejava.dia02;
+package noventaenovediasdejava.dia03;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -121,6 +122,132 @@ class NumeroRacionalTest {
     void testarToString() {
         var numeroRacional = new NumeroRacional(2, 3);
         Assertions.assertEquals("2/3", numeroRacional.toString());
+    }
+}
+----
+== Dia 03 - Modelando com Java: Vamos representar números racionais em sua forma irredutível!
+
+[source,java]
+----
+package noventaenovediasdejava.dia03;
+
+public record NumeroRacional(Integer numerador, Integer denominador) {
+    public NumeroRacional {
+        if (numerador == null) {
+            throw new IllegalArgumentException("numerador não pode ser nulo");
+        }
+        if (denominador == null) {
+            throw new IllegalArgumentException("denominador não pode ser nulo");
+        }
+        if (Integer.valueOf(0).equals(denominador)) {
+            throw new IllegalArgumentException("denominador não pode ser igual a 0");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "%s/%s".formatted(this.numerador, this.denominador);
+    }
+
+    public NumeroRacional formaIrredutivel() {
+        int numero = Math.abs(this.numerador);
+        int maximoDivisorComum = Math.abs(this.denominador);
+        int resto = 0;
+        do {
+            if (resto != 0) {
+                numero = maximoDivisorComum;
+                maximoDivisorComum = resto;
+            }
+            resto = numero % maximoDivisorComum;
+        } while (resto != 0);
+        return new NumeroRacional(
+            this.numerador / maximoDivisorComum,
+            this.denominador / maximoDivisorComum
+        );
+    }
+}
+----
+
+[source,java]
+----
+package noventaenovediasdejava.dia03;
+
+import java.util.stream.Stream;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+@TestMethodOrder(OrderAnnotation.class)
+class NumeroRacionalTest {
+    @Test
+    @Order(0)
+    void testarInstanciacao() {
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, 0),
+            "não deve aceitar denominador igual a 0"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(null, 1),
+            "não deve aceitar numerador nulo"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, null),
+            "não deve aceitar denominador nulo"
+        );
+    }
+
+    @Test
+    @Order(1)
+    void testarToString() {
+        var numeroRacional = new NumeroRacional(2, 3);
+        Assertions.assertEquals("2/3", numeroRacional.toString());
+    }
+
+    @ParameterizedTest(name = "[{index}] a forma irredutível de {0} deve ser igual a {1}")
+    @MethodSource("testarFormaIrredutivelArgs")
+    void testarFormaIrredutivel(
+        final NumeroRacional numeroRacionalBase,
+        final NumeroRacional numeroRacionalNaFormaIrredutivelEsperado
+    ) {
+        final NumeroRacional numeroRacionalNaFormaIrredutivel = numeroRacionalBase
+            .formaIrredutivel();
+        Assertions.assertNotNull(
+            numeroRacionalNaFormaIrredutivel,
+            "não deve ser retornado valor/referência nulo"
+        );
+        Assertions.assertEquals(
+            numeroRacionalNaFormaIrredutivelEsperado,
+            numeroRacionalNaFormaIrredutivel
+        );
+    }
+
+    static Stream<Arguments> testarFormaIrredutivelArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(12,4),
+                new NumeroRacional(3,1)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(130,78),
+                new NumeroRacional(5,3)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(-130,78),
+                new NumeroRacional(-5,3)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(130,-78),
+                new NumeroRacional(5,-3)
+            )
+        );
     }
 }
 ----

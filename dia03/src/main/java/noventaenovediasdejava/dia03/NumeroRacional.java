@@ -1,4 +1,4 @@
-package noventaenovediasdejava.dia02;
+package noventaenovediasdejava.dia03;
 
 public record NumeroRacional(Integer numerador, Integer denominador) {
     public NumeroRacional {
@@ -18,4 +18,20 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
         return "%s/%s".formatted(this.numerador, this.denominador);
     }
 
+    public NumeroRacional formaIrredutivel() {
+        int numero = Math.abs(this.numerador);
+        int maximoDivisorComum = Math.abs(this.denominador);
+        int resto = 0;
+        do {
+            if (resto != 0) {
+                numero = maximoDivisorComum;
+                maximoDivisorComum = resto;
+            }
+            resto = numero % maximoDivisorComum;
+        } while (resto != 0);
+        return new NumeroRacional(
+            this.numerador / maximoDivisorComum,
+            this.denominador / maximoDivisorComum
+        );
+    }
 }
