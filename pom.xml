@@ -90,5 +90,6 @@
   <modules>
     <module>dia01</module>
     <module>dia02</module>
+    <module>dia03</module>
   </modules>
 </project>
