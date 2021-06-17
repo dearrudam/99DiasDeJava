@@ -58,7 +58,7 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
     }
 }
 ----
-== Dia 02 - Modelando com Java: Subrescrevendo metódos Java
+== Dia 02 - Modelando com Java: Sobrescrevendo metódos Java
 
 [source,java]
 ----
