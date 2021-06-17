@@ -62,7 +62,7 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
 
 [source,java]
 ----
-package noventaenovediasdejava.dia03;
+package noventaenovediasdejava.dia02;
 
 public record NumeroRacional(Integer numerador, Integer denominador) {
     public NumeroRacional {
@@ -87,7 +87,7 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
 
 [source,java]
 ----
-package noventaenovediasdejava.dia03;
+package noventaenovediasdejava.dia02;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
