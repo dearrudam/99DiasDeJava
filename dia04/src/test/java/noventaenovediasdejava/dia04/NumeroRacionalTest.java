@@ -61,20 +61,59 @@ class NumeroRacionalTest {
     static Stream<Arguments> testarFormaIrredutivelArgs() {
         return Stream.of(
             Arguments.arguments(
-                new NumeroRacional(12,4),
-                new NumeroRacional(3,1)
+                new NumeroRacional(12, 4),
+                new NumeroRacional(3, 1)
             ),
             Arguments.arguments(
-                new NumeroRacional(130,78),
-                new NumeroRacional(5,3)
+                new NumeroRacional(130, 78),
+                new NumeroRacional(5, 3)
             ),
             Arguments.arguments(
-                new NumeroRacional(-130,78),
-                new NumeroRacional(-5,3)
+                new NumeroRacional(-130, 78),
+                new NumeroRacional(-5, 3)
             ),
             Arguments.arguments(
-                new NumeroRacional(130,-78),
-                new NumeroRacional(5,-3)
+                new NumeroRacional(130, -78),
+                new NumeroRacional(5, -3)
+            )
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] {0} + {1} = {2}")
+    @MethodSource("testarSomarArgs")
+    void testarSomar(
+        final NumeroRacional numeroRacional01,
+        final NumeroRacional numeroRacional02,
+        final NumeroRacional resultadoEsperado
+    ) {
+        final NumeroRacional resultadoAtual =
+            numeroRacional01.somar(numeroRacional02);
+        Assertions.
+            assertNotNull(resultadoAtual,
+                          "não deve retornar valor/referência nula");
+        Assertions.
+            assertEquals(
+                resultadoEsperado,
+                resultadoAtual
+            );
+    }
+
+    static Stream<Arguments> testarSomarArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(1, 4),
+                new NumeroRacional(1, 4),
+                new NumeroRacional(1, 2)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(2, 3),
+                new NumeroRacional(3, 4),
+                new NumeroRacional(17, 12)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(5, 3),
+                new NumeroRacional(4, 12),
+                new NumeroRacional(2, 1)
             )
         );
     }

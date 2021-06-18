@@ -34,4 +34,20 @@ public record NumeroRacional(Integer numerador, Integer denominador) {
             this.denominador / maximoDivisorComum
         );
     }
+
+    public NumeroRacional somar(final NumeroRacional numeroRacional) {
+        //        N1   N2   N1*D2+N2*D1
+        //        -- + -- = ----------- =
+        //        D1   D2     D1 * D2
+        int n1 = this.numerador;
+        int d1 = this.denominador;
+        int n2 = numeroRacional.numerador;
+        int d2 = numeroRacional.denominador;
+        final NumeroRacional resultado =
+            new NumeroRacional(
+                ((n1 * d2) + (n2 * d1)),
+                (d1 * d2)
+            );
+        return resultado.formaIrredutivel();
+    }
 }
