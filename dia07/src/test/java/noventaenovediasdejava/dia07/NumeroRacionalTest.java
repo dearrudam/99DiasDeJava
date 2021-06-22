@@ -13,7 +13,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @TestMethodOrder(OrderAnnotation.class)
 class NumeroRacionalTest {
-
     @Test
     @Order(0)
     void testarInstanciacao() {
@@ -150,21 +149,44 @@ class NumeroRacionalTest {
         final NumeroRacional numeroRacional01,
         final NumeroRacional numeroRacional02,
         final NumeroRacional resultadoEsperado
-    ){
+    ) {
         Assertions
-            .assertEquals(resultadoEsperado,
-                          numeroRacional01.multiplicar(numeroRacional02)
+            .assertEquals(
+                resultadoEsperado,
+                numeroRacional01.multiplicar(numeroRacional02)
             );
     }
 
-    static Stream<Arguments> testarMultiplicacaoArgs(){
+    static Stream<Arguments> testarMultiplicacaoArgs() {
         return Stream.of(
-          Arguments.arguments(
-              new NumeroRacional(2,3),
-              new NumeroRacional(6,6),
-              new NumeroRacional(2,3)
-          )
+            Arguments.arguments(
+                new NumeroRacional(2, 3),
+                new NumeroRacional(6, 6),
+                new NumeroRacional(2, 3)
+            )
         );
     }
 
+    @ParameterizedTest(name = "[{index}] {0} / {1} = {2}")
+    @MethodSource("testarDividirArgs")
+    void testarDividir(
+        final NumeroRacional numeroRacional01,
+        final NumeroRacional numeroRacional02,
+        final NumeroRacional resultadoEsperado
+    ) {
+        Assertions.assertEquals(
+            resultadoEsperado,
+            numeroRacional01.dividir(numeroRacional02)
+        );
+    }
+
+    static Stream<Arguments> testarDividirArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(1, 2),
+                new NumeroRacional(3, 4),
+                new NumeroRacional(2, 3)
+            )
+        );
+    }
 }

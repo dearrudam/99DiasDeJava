@@ -912,3 +912,294 @@ class NumeroRacionalTest {
 
 }
 ----
+== Dia 07 - Dividir para conquistar: Divisão entre números racionais com Java!
+
+[source,java]
+----
+package noventaenovediasdejava.dia07;
+
+public record NumeroRacional(Integer numerador, Integer denominador) {
+    public NumeroRacional {
+        if (numerador == null) {
+            throw new IllegalArgumentException("numerador não pode ser nulo");
+        }
+        if (denominador == null) {
+            throw new IllegalArgumentException("denominador não pode ser nulo");
+        }
+        if (Integer.valueOf(0).equals(denominador)) {
+            throw new IllegalArgumentException("denominador não pode ser igual a 0");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "%s/%s".formatted(this.numerador, this.denominador);
+    }
+
+    public NumeroRacional formaIrredutivel() {
+        int numero = Math.abs(this.numerador);
+        int maximoDivisorComum = Math.abs(this.denominador);
+        int resto = 0;
+        do {
+            if (resto != 0) {
+                numero = maximoDivisorComum;
+                maximoDivisorComum = resto;
+            }
+            resto = numero % maximoDivisorComum;
+        } while (resto != 0);
+        return new NumeroRacional(
+            this.numerador / maximoDivisorComum,
+            this.denominador / maximoDivisorComum
+        );
+    }
+
+    public NumeroRacional somar(final NumeroRacional numeroRacional) {
+        //        N1   N2   N1*D2+N2*D1
+        //        -- + -- = ----------- =
+        //        D1   D2     D1 * D2
+        int n1 = this.numerador;
+        int d1 = this.denominador;
+        int n2 = numeroRacional.numerador;
+        int d2 = numeroRacional.denominador;
+        final NumeroRacional resultado =
+            new NumeroRacional(
+                ((n1 * d2) + (n2 * d1)),
+                (d1 * d2)
+            );
+        return resultado.formaIrredutivel();
+    }
+
+    public NumeroRacional subtrair(final NumeroRacional numeroRacional) {
+        //        N1   N2   N1*D2-N2*D1
+        //        -- - -- = ----------- =
+        //        D1   D2     D1 * D2
+        int n1 = this.numerador;
+        int d1 = this.denominador;
+        int n2 = numeroRacional.numerador;
+        int d2 = numeroRacional.denominador;
+        final NumeroRacional resultado =
+            new NumeroRacional(
+                (n1 * d2 - n2 * d1),
+                (d1 * d2)
+            );
+        return resultado.formaIrredutivel();
+    }
+
+    public NumeroRacional multiplicar(
+        final NumeroRacional numeroRacional
+    ) {
+        // (N1 * N2) / (D1 * D2)
+        NumeroRacional resultado =
+            new NumeroRacional(
+                this.numerador * numeroRacional.numerador,
+                this.denominador * numeroRacional.denominador
+            );
+        return resultado.formaIrredutivel();
+    }
+
+    public NumeroRacional dividir(final NumeroRacional numeroRacional) {
+        // (N1*D2)/(N2*D1)
+        NumeroRacional resultado =
+            new NumeroRacional(
+                this.numerador * numeroRacional.denominador,
+                numeroRacional.numerador * this.denominador
+            );
+        return resultado.formaIrredutivel();
+    }
+}
+----
+[source, java]
+----
+package noventaenovediasdejava.dia07;
+
+import java.util.stream.Stream;
+import noventaenovediasdejava.dia07.NumeroRacional;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+@TestMethodOrder(OrderAnnotation.class)
+class NumeroRacionalTest {
+    @Test
+    @Order(0)
+    void testarInstanciacao() {
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, 0),
+            "não deve aceitar denominador igual a 0"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(null, 1),
+            "não deve aceitar numerador nulo"
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new NumeroRacional(1, null),
+            "não deve aceitar denominador nulo"
+        );
+    }
+
+    @Test
+    @Order(1)
+    void testarToString() {
+        var numeroRacional = new NumeroRacional(2, 3);
+        Assertions.assertEquals("2/3", numeroRacional.toString());
+    }
+
+    @ParameterizedTest(name = "[{index}] a forma irredutível de {0} deve ser igual a {1}")
+    @MethodSource("testarFormaIrredutivelArgs")
+    void testarFormaIrredutivel(
+        final NumeroRacional numeroRacionalBase,
+        final NumeroRacional numeroRacionalNaFormaIrredutivelEsperado
+    ) {
+        final NumeroRacional numeroRacionalNaFormaIrredutivel = numeroRacionalBase
+            .formaIrredutivel();
+        Assertions.assertNotNull(
+            numeroRacionalNaFormaIrredutivel,
+            "não deve ser retornado valor/referência nulo"
+        );
+        Assertions.assertEquals(
+            numeroRacionalNaFormaIrredutivelEsperado,
+            numeroRacionalNaFormaIrredutivel
+        );
+    }
+
+    static Stream<Arguments> testarFormaIrredutivelArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(12, 4),
+                new NumeroRacional(3, 1)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(130, 78),
+                new NumeroRacional(5, 3)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(-130, 78),
+                new NumeroRacional(-5, 3)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(130, -78),
+                new NumeroRacional(5, -3)
+            )
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] {0} + {1} = {2}")
+    @MethodSource("testarSomarArgs")
+    void testarSomar(
+        final NumeroRacional numeroRacional01,
+        final NumeroRacional numeroRacional02,
+        final NumeroRacional resultadoEsperado
+    ) {
+        final NumeroRacional resultadoAtual =
+            numeroRacional01.somar(numeroRacional02);
+        Assertions.
+            assertNotNull(
+                resultadoAtual,
+                "não deve retornar valor/referência nula"
+            );
+        Assertions.
+            assertEquals(
+                resultadoEsperado,
+                resultadoAtual
+            );
+    }
+
+    static Stream<Arguments> testarSomarArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(1, 4),
+                new NumeroRacional(1, 4),
+                new NumeroRacional(1, 2)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(2, 3),
+                new NumeroRacional(3, 4),
+                new NumeroRacional(17, 12)
+            ),
+            Arguments.arguments(
+                new NumeroRacional(5, 3),
+                new NumeroRacional(4, 12),
+                new NumeroRacional(2, 1)
+            )
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] {0} - {1} = {2}")
+    @MethodSource("testarSubtrairArgs")
+    void testarSubtrair(
+        final NumeroRacional numeroRacional01,
+        final NumeroRacional numeroRacional02,
+        final NumeroRacional resultadoEsperado
+    ) {
+        Assertions.assertEquals(
+            resultadoEsperado,
+            numeroRacional01.subtrair(numeroRacional02)
+        );
+    }
+
+    static Stream<Arguments> testarSubtrairArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(1, 2),
+                new NumeroRacional(3, 4),
+                new NumeroRacional(-1, 4)
+            )
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}]{0} * {1} = {2}")
+    @MethodSource("testarMultiplicacaoArgs")
+    void testarMultiplicacao(
+        final NumeroRacional numeroRacional01,
+        final NumeroRacional numeroRacional02,
+        final NumeroRacional resultadoEsperado
+    ) {
+        Assertions
+            .assertEquals(
+                resultadoEsperado,
+                numeroRacional01.multiplicar(numeroRacional02)
+            );
+    }
+
+    static Stream<Arguments> testarMultiplicacaoArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(2, 3),
+                new NumeroRacional(6, 6),
+                new NumeroRacional(2, 3)
+            )
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] {0} / {1} = {2}")
+    @MethodSource("testarDividirArgs")
+    void testarDividir(
+        final NumeroRacional numeroRacional01,
+        final NumeroRacional numeroRacional02,
+        final NumeroRacional resultadoEsperado
+    ) {
+        Assertions.assertEquals(
+            resultadoEsperado,
+            numeroRacional01.dividir(numeroRacional02)
+        );
+    }
+
+    static Stream<Arguments> testarDividirArgs() {
+        return Stream.of(
+            Arguments.arguments(
+                new NumeroRacional(1, 2),
+                new NumeroRacional(3, 4),
+                new NumeroRacional(2, 3)
+            )
+        );
+    }
+}
+----
