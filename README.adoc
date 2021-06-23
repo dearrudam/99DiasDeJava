@@ -1203,3 +1203,69 @@ class NumeroRacionalTest {
     }
 }
 ----
+== Dia 08 - Jokenpô em Java!?
+
+[source,java]
+----
+package noventaenovediasdejava.dia08;
+
+public interface JogadorJokenpo {
+}
+----
+[source,java]
+----
+package noventaenovediasdejava.dia08;
+
+public class JogoJokenpo {
+    public JogoJokenpo(
+        final JogadorJokenpo jogador01,
+        final JogadorJokenpo jogador02
+    ) {
+        if (jogador01 == null && jogador02 == null) {
+            throw new IllegalArgumentException("jogadores não informados");
+        }
+        if (jogador01 != null && jogador02 == null) {
+            throw new IllegalArgumentException("jogador 02 não informado");
+        }
+        if (jogador01 == null && jogador02 != null) {
+            throw new IllegalArgumentException("jogador 01 não informado");
+        }
+    }
+}
+----
+[source, java]
+----
+package noventaenovediasdejava.dia08;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class JogoJokenpoTest {
+    @Test
+    void naoDevePermitirInstanciacao() {
+        Assertions
+            .assertThrows(
+                IllegalArgumentException.class,
+                () -> new JogoJokenpo(null, null),
+                "não deve ser permitido a instanciação do jogo sem jogadores"
+            );
+        Assertions
+            .assertThrows(
+                IllegalArgumentException.class,
+                () -> new JogoJokenpo(new JogadorJokenpo() {
+                }, null),
+                "não deve ser permitido a instanciação do jogo só com o jogador 01"
+            );
+        Assertions
+            .assertThrows(
+                IllegalArgumentException.class,
+                () -> new JogoJokenpo(
+                    null,
+                    new JogadorJokenpo() {
+                    }
+                ),
+                "não deve ser permitido a instanciação do jogo só com o jogador 02"
+            );
+    }
+}
+----
