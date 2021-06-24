@@ -1269,3 +1269,70 @@ public class JogoJokenpoTest {
     }
 }
 ----
+== Dia 09 - Jokenpô em Java - Pedra, Papel ou Tesoura?
+
+[source,java]
+----
+package noventaenovediasdejava.dia09;
+
+public enum MovimentoJokenpo {
+    PEDRA {
+        @Override
+        public boolean ganhaDe(final MovimentoJokenpo movimento) {
+            return TESOURA.equals(movimento);
+        }
+    },
+    PAPEL {
+        @Override
+        public boolean ganhaDe(final MovimentoJokenpo movimento) {
+            return switch (movimento) {
+                case PEDRA -> true;
+                default -> false;
+            };
+        }
+    },
+    TESOURA {
+        @Override
+        public boolean ganhaDe(final MovimentoJokenpo movimento) {
+            return PAPEL.equals(movimento);
+        }
+    };
+
+    public abstract boolean ganhaDe(final MovimentoJokenpo movimento);
+}
+----
+[source, java]
+----
+package noventaenovediasdejava.dia09;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class MovimentoJokenpoTest {
+    @Test
+    void testeDeEstrutura() {
+        final var values = MovimentoJokenpo.values();
+        Assertions.assertEquals(
+            3,
+            values.length,
+            "Só deve ter 3 tipos de movimentos Jokenpô"
+        );
+        Assertions.assertEquals("PEDRA", values[0].name());
+        Assertions.assertEquals("PAPEL", values[1].name());
+        Assertions.assertEquals("TESOURA", values[2].name());
+    }
+
+    @Test
+    void testarComportamento() {
+        Assertions.assertEquals(true,
+                                MovimentoJokenpo.PAPEL
+                                    .ganhaDe(MovimentoJokenpo.PEDRA));
+        Assertions.assertEquals(true,
+                                MovimentoJokenpo.PEDRA
+                                    .ganhaDe(MovimentoJokenpo.TESOURA));
+        Assertions.assertEquals(true,
+                                MovimentoJokenpo.TESOURA
+                                    .ganhaDe(MovimentoJokenpo.PAPEL));
+    }
+}
+----
