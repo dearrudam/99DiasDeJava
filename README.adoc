@@ -1336,3 +1336,115 @@ class MovimentoJokenpoTest {
     }
 }
 ----
+== Dia 10 -  Jokenpô em Java - Quem vencerá?
+
+[source,java]
+----
+package noventaenovediasdejava.dia10;
+
+@FunctionalInterface
+public interface JogadorJokenpo {
+    MovimentoJokenpo jogar();
+}
+----
+[source,java]
+----
+package noventaenovediasdejava.dia10;
+
+public record JogadaJokenpo(
+    boolean acabouEmpatada,
+    JogadorJokenpo vencedor,
+    JogadorJokenpo perdedor
+) {
+}
+----
+[source,java]
+----
+package noventaenovediasdejava.dia10;
+
+public class JogoJokenpo {
+    private final JogadorJokenpo jogador01;
+    private final JogadorJokenpo jogador02;
+
+    public JogoJokenpo(
+        final JogadorJokenpo jogador01,
+        final JogadorJokenpo jogador02
+    ) {
+        if (jogador01 == null && jogador02 == null) {
+            throw new IllegalArgumentException("jogadores não informados");
+        }
+        if (jogador01 != null && jogador02 == null) {
+            throw new IllegalArgumentException("jogador 02 não informado");
+        }
+        if (jogador01 == null && jogador02 != null) {
+            throw new IllegalArgumentException("jogador 01 não informado");
+        }
+        this.jogador01 = jogador01;
+        this.jogador02 = jogador02;
+    }
+
+    public JogadaJokenpo executarJogada() {
+        MovimentoJokenpo movimentoJokenpo01 = this.jogador01.jogar();
+        MovimentoJokenpo movimentoJokenpo02 = this.jogador02.jogar();
+        if (movimentoJokenpo01.ganhaDe(movimentoJokenpo02)) {
+            return new JogadaJokenpo(false, jogador01, jogador02);
+        }
+        if (movimentoJokenpo02.ganhaDe(movimentoJokenpo01)) {
+            return new JogadaJokenpo(false, jogador02, jogador01);
+        }
+        return new JogadaJokenpo(true, null, null);
+    }
+}
+----
+[source, java]
+----
+package noventaenovediasdejava.dia10;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class JogoJokenpoTest {
+    @Test
+    void naoDevePermitirInstanciacao() {
+        final JogadorJokenpo jogador = () -> null;
+        Assertions
+            .assertThrows(
+                IllegalArgumentException.class,
+                () -> new JogoJokenpo(null, null),
+                "não deve ser permitido a instanciação do jogo sem jogadores"
+            );
+        Assertions
+            .assertThrows(
+                IllegalArgumentException.class,
+                () -> new JogoJokenpo(jogador, null),
+                "não deve ser permitido a instanciação do jogo só com o jogador 01"
+            );
+        Assertions
+            .assertThrows(
+                IllegalArgumentException.class,
+                () -> new JogoJokenpo(
+                    null, jogador
+                ),
+                "não deve ser permitido a instanciação do jogo só com o jogador 02"
+            );
+    }
+
+    @Test
+    void testeExecutarJogada() {
+        JogadorJokenpo pietro = () -> MovimentoJokenpo.PEDRA;
+        JogadorJokenpo max = () -> MovimentoJokenpo.TESOURA;
+        JogoJokenpo jogo = Assertions
+            .assertDoesNotThrow(
+                () -> new JogoJokenpo(pietro, max),
+                "deveria permitir a criação do Jogo"
+            );
+        JogadaJokenpo jogada = jogo.executarJogada();
+        Assertions.assertEquals(
+            false,
+            jogada.acabouEmpatada()
+        );
+        Assertions.assertEquals(pietro, jogada.vencedor());
+        Assertions.assertEquals(max, jogada.perdedor());
+    }
+}
+----
