@@ -1448,7 +1448,6 @@ public class JogoJokenpoTest {
     }
 }
 ----
-----
 == Dia 11 - Jokenpô em Java - Implementando Jogadores: Rounding-Robin, Map, Reduce!?
 
 [source,java]
