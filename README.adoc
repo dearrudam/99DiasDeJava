@@ -1899,3 +1899,142 @@ public class ContadorTest {
     }
 }
 ----
+== Dia 15 - Criando um validador com Bean Validation!
+
+- adicionando dependências
+
+[source,xml]
+----
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- omitted -->
+  <dependencies>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.13.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+  </dependencies>
+  <!-- omitted -->
+</project>
+
+----
+
+- exemplo de implementação
+
+[source,java]
+----
+package noventaenovediasdejava.dia15;
+
+import java.time.LocalDate;
+
+@PeriodoValido
+public record Periodo(LocalDate inicio, LocalDate fim) {
+    public static Periodo of(LocalDate inicio, LocalDate fim) {
+        return new Periodo(inicio, fim);
+    }
+}
+----
+
+[source,java]
+----
+package noventaenovediasdejava.dia15;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Constraint(validatedBy = PeriodoValidator.class)
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PeriodoValido {
+
+    String message() default "período está inválido";
+
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] groups() default {};
+}
+----
+
+[source,java]
+----
+package noventaenovediasdejava.dia15;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+public class PeriodoValidator implements ConstraintValidator<PeriodoValido, Periodo> {
+    @Override
+    public boolean isValid(Periodo value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return false;
+        }
+        if (value.inicio() == null) {
+            return false;
+        }
+        if (value.fim() == null) {
+            return false;
+        }
+        return value.inicio().isBefore(value.fim())
+                || value.inicio().isEqual(value.fim());
+    }
+}
+----
+
+[source,java]
+----
+package noventaenovediasdejava.dia15;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.time.LocalDate;
+
+public class PeriodoTest {
+
+    @Test
+    @DisplayName("dado um periodo válido, o validator não deve encontrar violações")
+    public void test01() {
+
+        var violacoes = getValidator()
+                .validate(Periodo.of(LocalDate.of(2022, 1, 1), LocalDate.now()));
+
+        Assertions.assertTrue(violacoes.isEmpty());
+
+    }
+
+    @Test
+    @DisplayName("dado um periodo inválido, o validator deve encontrar uma violação")
+    public void test02() {
+
+        var violacoes = getValidator()
+                .validate(Periodo.of(LocalDate.now(), LocalDate.of(2022, 1, 1)));
+
+        Assertions.assertFalse(violacoes.isEmpty());
+
+    }
+
+    public Validator getValidator() {
+        return Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+}
+----
