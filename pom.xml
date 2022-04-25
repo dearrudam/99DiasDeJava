@@ -11,21 +11,22 @@
   <url>https://github.com/dearrudam/99DiasDeJava</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>16</maven.compiler.source>
-    <maven.compiler.target>16</maven.compiler.target>
+    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>18</maven.compiler.target>
     <maven.compiler.release>${maven.compiler.target}</maven.compiler.release>
+    <junit-jupiter.version>5.8.2</junit-jupiter.version>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.7.2</version>
+      <version>${junit-jupiter.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
-      <version>5.7.2</version>
+      <version>${junit-jupiter.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -102,5 +103,6 @@
     <module>dia12</module>
     <module>dia13</module>
     <module>dia14</module>
+    <module>dia15</module>
   </modules>
 </project>
